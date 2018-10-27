@@ -8,7 +8,7 @@ Dotenv.load
 Net::SSH.start(
   ENV.fetch('HOST'),
   ENV.fetch('USER'),
-  ENV.fetch('PASSWORD')
+  password: ENV.fetch('PASSWORD')
 ) do |ssh|
   ssh.sftp.connect do |sftp|
     Dir.foreach('.') do |file|
