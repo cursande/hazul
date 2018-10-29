@@ -4,7 +4,6 @@ require 'dotenv/load'
 
 Dotenv.load
 
-# TODO: Split down into discrete classes
 Net::SSH.start(
   ENV.fetch('HOST'),
   ENV.fetch('USER'),
