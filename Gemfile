@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'net-ssh'
-gem 'net-sftp'
 gem 'dotenv'
+gem 'net-sftp'
+gem 'net-ssh'
 gem 'pry'
 gem 'rubocop'
 
