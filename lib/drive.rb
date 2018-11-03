@@ -8,11 +8,12 @@ class DriveClient
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Hazul'
 
-  CREDENTIALS_PATH = '../credentials/credentials.json'
-  TOKEN_PATH = '../credentials/token.yaml'
+  CREDENTIALS_PATH = './credentials/credentials.json'
+  TOKEN_PATH = './credentials/token.yaml'
 
   # Initialize the API
   def initialize
+    service = Google::Apis::DriveV3::DriveService.new
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
   end
@@ -54,10 +55,6 @@ class DriveClient
   end
 
   private
-
-  def service
-    @service ||= Google::Apis::DriveV3::DriveService.new
-  end
 
   def user_authorizer
     @user_authorizer ||= Google::Auth::UserAuthorizer.new(
