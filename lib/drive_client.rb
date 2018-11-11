@@ -7,8 +7,8 @@ require 'fileutils'
 class DriveClient
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Hazul'
-  CREDENTIALS_PATH = './credentials/credentials.json'
-  TOKEN_PATH = './credentials/token.yaml'
+  CREDENTIALS_PATH = __dir__ + '/../credentials/credentials.json'
+  TOKEN_PATH = __dir__ + '/../credentials/token.yaml'
 
   # Initialize the API
   def initialize
@@ -64,6 +64,3 @@ class DriveClient
   end
 end
 
-client = DriveClient.new
-
-client.display_files(5)
