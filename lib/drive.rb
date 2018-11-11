@@ -16,26 +16,23 @@ class DriveClient
     service.authorization = authorize
   end
 
-  # Ensure valid credentials, either by restoring from the saved credentials
-  # files or intitiating an OAuth2 authorization. If authorization is required,
-  # the user's default browser will be launched to approve the request.
-  #
-  # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
   def authorize
     user_id = 'default'
     credentials = user_authorizer.get_credentials(user_id)
-    if credentials.nil?
-      url = user_authorizer.get_authorization_url(base_url: OOB_URI)
-      puts 'Open the following URL in the browser and enter the ' \
-           "resulting code after authorization:\n" + url
-      code = gets
-      credentials = user_authorizer.get_and_store_credentials_from_code(
-        user_id: user_id,
-        code: code,
-        base_url: OOB_URI
-      )
-    end
-    credentials
+    credentials || fetch_and_store_credentials
+  end
+
+  # TODO: Make this less clunky
+  def fetch_and_store_credentials
+    url = user_authorizer.get_authorization_url(base_url: OOB_URI)
+    puts 'Open the following URL in the browser and enter the ' \
+      "resulting code after authorization:\n" + url
+    code = gets
+    credentials = user_authorizer.get_and_store_credentials_from_code(
+      user_id: user_id,
+      code: code,
+      base_url: OOB_URI
+    )
   end
 
   # Lists n most recently modified files
