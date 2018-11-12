@@ -3,6 +3,7 @@ require 'google/apis/drive_v3'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
+require 'launchy'
 
 class DriveClient
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
@@ -22,11 +23,11 @@ class DriveClient
     credentials || fetch_and_store_credentials(user_id)
   end
 
-  # TODO: Make this less clunky
   def fetch_and_store_credentials(user_id)
-    url = user_authorizer.get_authorization_url(base_url: OOB_URI)
-    puts 'Open the following URL in the browser and enter the ' \
-      "resulting code after authorization:\n" + url
+    Launchy.open(user_authorizer.get_authorization_url(base_url: OOB_URI))
+
+    puts 'Paste code here:'
+
     code = gets
     credentials = user_authorizer.get_and_store_credentials_from_code(
       user_id: user_id,
@@ -63,4 +64,3 @@ class DriveClient
     )
   end
 end
-
