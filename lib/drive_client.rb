@@ -19,11 +19,11 @@ class DriveClient
   def authorize
     user_id = 'default'
     credentials = user_authorizer.get_credentials(user_id)
-    credentials || fetch_and_store_credentials
+    credentials || fetch_and_store_credentials(user_id)
   end
 
   # TODO: Make this less clunky
-  def fetch_and_store_credentials
+  def fetch_and_store_credentials(user_id)
     url = user_authorizer.get_authorization_url(base_url: OOB_URI)
     puts 'Open the following URL in the browser and enter the ' \
       "resulting code after authorization:\n" + url
@@ -58,7 +58,7 @@ class DriveClient
   def user_authorizer
     @user_authorizer ||= Google::Auth::UserAuthorizer.new(
       Google::Auth::ClientId.from_file(CREDENTIALS_PATH),
-      Google::Apis::DriveV3::AUTH_DRIVE_METADATA_READONLY,
+      Google::Apis::DriveV3::AUTH_DRIVE_FILE,
       Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
     )
   end
